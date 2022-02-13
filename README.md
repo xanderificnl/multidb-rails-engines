@@ -1,24 +1,60 @@
-# README
+```bash
+rails new st
+cd st
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+cat << EOF > config/database.yml
+development:
+  primary:
+    database: st
+    adapter: postgresql
+  voyager:
+    database: voyager
+    adapter: postgresql
+    migrations_paths: db/voyager_migrate
+EOF
 
-Things you may want to cover:
+rails db:setup
+rails g model article title
+rails g model character name --database voyager
+rails db:migrate
+```
 
-* Ruby version
+```
+❯ tree db/
+db/
+├── migrate
+│   └── 20220213184420_create_articles.rb
+├── schema.rb
+├── seeds.rb
+├── voyager_migrate
+│   └── 20220213184421_create_characters.rb
+└── voyager_schema.rb
+```
 
-* System dependencies
+```bash
+rails plugin new ops --mountable
+cd ops/
+sed 's/TODO//g; s/spec.metadata/#spec.metadata/g' ops.gemspec -i
+bundle
 
-* Configuration
+bin/rails g model planet name --database=voyager
+```
 
-* Database creation
+```
+      invoke  active_record
+      create    db/migrate/20220213184803_create_ops_planets.rb
+      create    app/models/ops/planet.rb
+      invoke    test_unit
+      create      test/models/ops/planet_test.rb
+      create      test/fixtures/ops/planets.yml
+```
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+❯ bin/rails g model plan name --database=voyager
+      invoke  active_record
+      create    db/voyager_migrate/20220213184907_create_plans.rb
+      create    app/models/plan.rb
+      invoke    test_unit
+      create      test/models/plan_test.rb
+      create      test/fixtures/plans.yml
+```
