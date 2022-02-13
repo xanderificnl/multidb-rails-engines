@@ -1,0 +1,8 @@
+development:
+  primary:
+    database: st
+    adapter: postgresql
+  voyager:
+    database: voyager
+    adapter: postgresql
+    migrations_paths: db/voyager_migrate

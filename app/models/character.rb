@@ -1,0 +1,2 @@
+class Character < VoyagerRecord
+end
